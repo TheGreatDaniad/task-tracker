@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage, { Project } from "./Projects"; // Import your HomePage component
 import TasksPage from "./Tasks"; // Import your TasksPage component
+import { parse } from "path";
 
 const App: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -12,13 +13,14 @@ const App: React.FC = () => {
   useEffect(() => {
     const data = localStorage.getItem("taskTrackerData");
     if (data) {
+      console.log(data)
       const parsedData = JSON.parse(data);
+      console.log(parsedData)
       setProjects(parsedData.projects);
     }
     setInitialLoadCompleted(true);
   }, []);
   useEffect(() => {
-
     if (initialLoadCompleted) {
       saveToLocalStorage(projects);
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Item } from "./Tasks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -72,6 +72,13 @@ export default function Projects({
   const handleRemoveProject = (id: number) => {
     const updatedProjects = projects.filter((project) => project.id !== id);
     setProjects(updatedProjects);
+  };
+  const addButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && addButtonRef.current) {
+      addButtonRef.current.click();
+    }
   };
   return (
     <div>
@@ -149,11 +156,16 @@ export default function Projects({
             <input
               type="text"
               className="add-item-input"
+              onKeyDownCapture={handleKeyPress}
               value={newProjectName}
               onChange={(e) => setNewProjectName(e.target.value)}
               placeholder="Project Name"
             />
-            <button className="add-item-btn" onClick={handleAddProject}>
+            <button
+              className="add-item-btn"
+              onClick={handleAddProject}
+              ref={addButtonRef}
+            >
               Add
             </button>
           </div>

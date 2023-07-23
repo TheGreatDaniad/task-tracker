@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
@@ -50,24 +50,20 @@ export default function Projects({
       const len = projects[id]?.items.length;
       const arrayOfFalse = Array(len).fill(false);
       setShowSubItems(arrayOfFalse);
-
-      setInitialLoadCompleted(true);
     }
-  }, []);
+  }, [loaded]);
   useEffect(() => {
-    if (initialLoadCompleted) {
+    if (loaded && items.length > 0) {
       //@ts-ignore
+
       setProjectsGlobally((prev) => {
         const updatedProjects = [...prev]; // Create a new copy of projects
-        const projectToUpdate = updatedProjects[id];
-        if (projectToUpdate) {
-          // Update the specific project's 'items' property
-          projectToUpdate.items = items;
-        }
-        return updatedProjects; // Return the new array
+
+        updatedProjects[id].items = items;
+        return updatedProjects;
       });
     }
-  }, [items, id, initialLoadCompleted]);
+  }, [items]);
 
   const handleAddItem = () => {
     if (newItemText == "") return;
@@ -149,7 +145,20 @@ export default function Projects({
     });
     return Math.floor(100 * (finished / len));
   };
+  const addButtonRef = useRef<HTMLButtonElement>(null);
+  const addButtonRef2 = useRef<HTMLButtonElement>(null);
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && addButtonRef.current) {
+      addButtonRef.current.click();
+    }
+  };
+
+  const handleKeyPress2 = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && addButtonRef2.current) {
+      addButtonRef2.current.click();
+    }
+  };
   return (
     <div>
       <CustomModal
@@ -210,6 +219,7 @@ export default function Projects({
                           title: "Confirmation",
                           description:
                             "Are you sure you want to delete this task?",
+
                           initShow: true,
                           handleConfirm: () => {
                             handleRemoveItem(item.id);
@@ -273,6 +283,7 @@ export default function Projects({
                                 return prev;
                               })
                             }
+                            onKeyDownCapture={handleKeyPress2}
                             placeholder="Write the subtask to add"
                           />
                           <button
@@ -280,6 +291,7 @@ export default function Projects({
                             onClick={() => {
                               handleAddSubItem(index);
                             }}
+                            ref={addButtonRef2}
                           >
                             Add
                           </button>
@@ -293,12 +305,17 @@ export default function Projects({
             <div className="mt-10 d-flex justify-content-between">
               <input
                 type="text"
+                onKeyDownCapture={handleKeyPress}
                 className="add-item-input"
                 value={newItemText}
                 onChange={(e) => setNewItemText(e.target.value)}
                 placeholder="Write the task to add"
               />
-              <button className="add-item-btn" onClick={handleAddItem}>
+              <button
+                className="add-item-btn"
+                onClick={handleAddItem}
+                ref={addButtonRef}
+              >
                 Add Task
               </button>
             </div>
