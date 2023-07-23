@@ -42,15 +42,17 @@ export default function Projects({
   let id = parseInt(location.pathname.substring(1));
 
   useEffect(() => {
-    if (id > projects.length - 1) {
-      setWrongId(true);
-    }
-    setItems(projects[id].items);
-    const len = projects[id]?.items.length;
-    const arrayOfFalse = Array(len).fill(false);
-    setShowSubItems(arrayOfFalse);
+    if (loaded) {
+      if (id > projects.length - 1) {
+        setWrongId(true);
+      }
+      setItems(projects[id].items);
+      const len = projects[id]?.items.length;
+      const arrayOfFalse = Array(len).fill(false);
+      setShowSubItems(arrayOfFalse);
 
-    setInitialLoadCompleted(true);
+      setInitialLoadCompleted(true);
+    }
   }, []);
   useEffect(() => {
     if (initialLoadCompleted) {
