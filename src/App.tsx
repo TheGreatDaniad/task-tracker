@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 //@ts-ignore
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage, { Project } from "./Projects"; // Import your HomePage component
 import TasksPage from "./Tasks"; // Import your TasksPage component
 
