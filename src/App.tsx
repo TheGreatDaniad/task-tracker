@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 //@ts-ignore
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage, { Project } from "./Projects"; // Import your HomePage component
 import TasksPage from "./Tasks"; // Import your TasksPage component
 
@@ -29,8 +29,8 @@ const App: React.FC = () => {
     localStorage.setItem("taskTrackerData", JSON.stringify(data));
   };
   return (
-    <Router>
-      {initialLoadCompleted && (
+    <div>
+      <Router>
         <Routes>
           <Route
             path="/"
@@ -52,8 +52,8 @@ const App: React.FC = () => {
             }
           />
         </Routes>
-      )}
-    </Router>
+      </Router>
+    </div>
   );
 };
 
