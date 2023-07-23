@@ -27,7 +27,7 @@ export default function Projects({
   const [modal, setModal] = useState<ModalProps>();
   const [showModal, setShowModal] = useState<boolean>(false);
   useEffect(() => {
-    if (loaded) {
+    if (loaded && projects.length > 0) {
       setProjectsGlobally(projects);
     }
   }, [projects]);
