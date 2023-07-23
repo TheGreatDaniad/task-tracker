@@ -30,29 +30,31 @@ const App: React.FC = () => {
   };
   return (
     <div>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <HomePage
-                setProjectsGlobally={setProjects}
-                projectsGlobal={projects}
-              />
-            }
-          />
+      {initialLoadCompleted && (
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HomePage
+                  setProjectsGlobally={setProjects}
+                  projectsGlobal={projects}
+                />
+              }
+            />
 
-          <Route
-            path="/:id"
-            element={
-              <TasksPage
-                setProjectsGlobally={setProjects}
-                projects={projects}
-              />
-            }
-          />
-        </Routes>
-      </Router>
+            <Route
+              path="/:id"
+              element={
+                <TasksPage
+                  setProjectsGlobally={setProjects}
+                  projects={projects}
+                />
+              }
+            />
+          </Routes>
+        </Router>
+      )}
     </div>
   );
 };
