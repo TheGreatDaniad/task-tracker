@@ -1,73 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
-interface Item {
-  id: number;
-  text: string;
-  subItems: string[];
-}
+//@ts-ignore
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage, { Project } from "./Projects"; // Import your HomePage component
+import TasksPage from "./Tasks"; // Import your TasksPage component
 
 const App: React.FC = () => {
-  const [items, setItems] = useState<Item[]>([]);
-  const [newItemText, setNewItemText] = useState<string>('');
-  const [showSubItems, setShowSubItems] = useState<boolean[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [initialLoadCompleted, setInitialLoadCompleted] = useState(false);
 
-  const handleAddItem = () => {
-    const newItem: Item = {
-      id: items.length + 1,
-      text: newItemText,
-      subItems: [],
+  useEffect(() => {
+    const data = localStorage.getItem("taskTrackerData");
+    if (data) {
+      const parsedData = JSON.parse(data);
+      setProjects(parsedData.projects);
+      setInitialLoadCompleted(true);
+    }
+  }, []);
+  useEffect(() => {
+    if (initialLoadCompleted) {
+      saveToLocalStorage(projects);
+    }
+  }, [projects]);
+  const saveToLocalStorage = (projects: Project[]) => {
+    const data = {
+      projects,
     };
-    setItems([...items, newItem]);
-    setNewItemText('');
-    setShowSubItems([...showSubItems, false]);
+    localStorage.setItem("taskTrackerData", JSON.stringify(data));
   };
-
-  const handleAddSubItem = (itemId: number) => {
-    const updatedItems = items.map((item) =>
-      item.id === itemId ? { ...item, subItems: [...item.subItems, newItemText] } : item
-    );
-    setItems(updatedItems);
-    setNewItemText('');
-  };
-
-  const toggleSubItems = (itemId: number) => {
-    setShowSubItems((prevShowSubItems) =>
-      prevShowSubItems.map((show, index) => (index === itemId ? !show : show))
-    );
-  };
-
   return (
-    <div>
-      <h1>Items List</h1>
-      <input
-        type="text"
-        value={newItemText}
-        onChange={(e) => setNewItemText(e.target.value)}
-        placeholder="Enter item text"
-      />
-      <button onClick={handleAddItem}>Add Item</button>
+    <Router>
+      {initialLoadCompleted && (
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                setProjectsGlobally={setProjects}
+                projectsGlobal={projects}
+              />
+            }
+          />
 
-      {items.map((item, index) => (
-        <div key={item.id} style={{ marginLeft: '20px' }}>
-          <div>
-            
-            <span>{item.text}</span>
-            <button onClick={() => handleAddSubItem(item.id)}>Add Subitem</button>
-            <button onClick={() => toggleSubItems(index)}>
-              {showSubItems[index] ? 'Hide Subitems' : 'Show Subitems'}
-            </button>
-          </div>
-
-          {showSubItems[index] && (
-            <ul>
-              {item.subItems.map((subItem, subIndex) => (
-                <li key={subIndex}>{subItem}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
-    </div>
+          <Route
+            path="/:id"
+            element={
+              <TasksPage
+                setProjectsGlobally={setProjects}
+                projects={projects}
+              />
+            }
+          />
+        </Routes>
+      )}
+    </Router>
   );
 };
 
