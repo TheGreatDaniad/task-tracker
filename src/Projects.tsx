@@ -32,7 +32,7 @@ export default function Projects({
     }
   }, [projects]);
   useEffect(() => {
-    if (loaded) {
+    if (loaded && projects.length > 0) {
       setProjects(projectsGlobal);
     }
   }, [loaded]);
