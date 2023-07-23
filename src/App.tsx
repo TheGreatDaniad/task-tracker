@@ -13,9 +13,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const data = localStorage.getItem("taskTrackerData");
     if (data) {
-      console.log(data)
       const parsedData = JSON.parse(data);
-      console.log(parsedData)
       setProjects(parsedData.projects);
     }
     setInitialLoadCompleted(true);
