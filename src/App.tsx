@@ -14,10 +14,11 @@ const App: React.FC = () => {
     if (data) {
       const parsedData = JSON.parse(data);
       setProjects(parsedData.projects);
-      setInitialLoadCompleted(true);
     }
+    setInitialLoadCompleted(true);
   }, []);
   useEffect(() => {
+
     if (initialLoadCompleted) {
       saveToLocalStorage(projects);
     }
