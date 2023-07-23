@@ -27,7 +27,6 @@ export default function Projects({
   const [modal, setModal] = useState<ModalProps>();
   const [showModal, setShowModal] = useState<boolean>(false);
   useEffect(() => {
-
     if (loaded) {
       setProjectsGlobally(projects);
     }
@@ -70,7 +69,10 @@ export default function Projects({
     });
     return count;
   };
-  const handleRemoveProject = (id: number) => {};
+  const handleRemoveProject = (id: number) => {
+    const updatedProjects = projects.filter((project) => project.id !== id);
+    setProjects(updatedProjects);
+  };
   return (
     <div>
       <CustomModal
@@ -92,7 +94,9 @@ export default function Projects({
             <h2>Projects</h2>
           </div>
           <hr />
-
+          {projects.length == 0 && (
+            <p>You currently have no projects, add one to start.</p>
+          )}
           {projects.map((project, index) => (
             <div key={project.id}>
               <div className="d-flex justify-content-between my-1">

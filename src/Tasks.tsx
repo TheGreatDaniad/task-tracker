@@ -173,6 +173,9 @@ export default function Projects({
               <h2>Tasks</h2>
             </div>
             <hr />
+            {items.length == 0 && (
+              <p>You currently have no tasks, add one to start.</p>
+            )}
             {items.map((item, index) => (
               <div key={item.id}>
                 <div className="d-flex justify-content-between my-1">
