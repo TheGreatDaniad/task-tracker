@@ -20,11 +20,16 @@ interface SubItem {
   done: boolean;
 }
 type Props = {
+  loaded: boolean;
   projects: Project[];
   setProjectsGlobally: (projects: Project[]) => void;
 };
 
-export default function Projects({ setProjectsGlobally, projects }: Props) {
+export default function Projects({
+  setProjectsGlobally,
+  projects,
+  loaded,
+}: Props) {
   const [items, setItems] = useState<Item[]>([]);
   const [newSubItem, setNewSubItem] = useState<string[]>([]);
   const [newItemText, setNewItemText] = useState<string>("");

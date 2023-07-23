@@ -8,6 +8,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 type Props = {
   projectsGlobal: Project[];
   setProjectsGlobally: (projects: Project[]) => void;
+  loaded: boolean;
 };
 
 export interface Project {
@@ -19,14 +20,22 @@ export interface Project {
 export default function Projects({
   setProjectsGlobally,
   projectsGlobal,
+  loaded,
 }: Props) {
   const [newProjectName, setNewProjectName] = useState("");
   const [projects, setProjects] = useState<Project[]>(projectsGlobal);
   const [modal, setModal] = useState<ModalProps>();
   const [showModal, setShowModal] = useState<boolean>(false);
   useEffect(() => {
-    setProjectsGlobally(projects);
+    if (loaded) {
+      setProjectsGlobally(projects);
+    }
   }, [projects]);
+  useEffect(() => {
+    if (loaded) {
+      setProjects(projectsGlobal);
+    }
+  }, [loaded]);
   const handleAddProject = () => {
     if (newProjectName == "") return;
     const newProject: Project = {
