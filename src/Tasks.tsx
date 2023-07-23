@@ -40,7 +40,6 @@ export default function Projects({ setProjectsGlobally, projects }: Props) {
     if (id > projects.length - 1) {
       setWrongId(true);
     }
-    console.log(projects[id]);
     setItems(projects[id].items);
     const len = projects[id]?.items.length;
     const arrayOfFalse = Array(len).fill(false);
