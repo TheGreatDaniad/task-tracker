@@ -96,3 +96,9 @@ code {
 .no-decoration{
   text-decoration: none;
 }
+
+.count{
+  font-size: 12px;
+  opacity: 0.5;
+  font-weight: 800;
+}

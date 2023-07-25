@@ -7,6 +7,9 @@ import {
   faTrash,
   faCheck,
   faGreaterThan,
+  faBackward,
+  faBackwardStep,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import CustomModal, { Props as ModalProps } from "./Modal";
 import { Project } from "./Projects";
@@ -36,7 +39,6 @@ export default function Projects({
   const [showSubItems, setShowSubItems] = useState<boolean[]>([]);
   const [modal, setModal] = useState<ModalProps>();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [initialLoadCompleted, setInitialLoadCompleted] = useState(false);
   const [wrongId, setWrongId] = useState(false);
   const location = useLocation();
   let id = parseInt(location.pathname.substring(1));
@@ -55,7 +57,6 @@ export default function Projects({
   useEffect(() => {
     if (loaded && items.length > 0) {
       //@ts-ignore
-
       setProjectsGlobally((prev) => {
         const updatedProjects = [...prev]; // Create a new copy of projects
 
@@ -169,9 +170,21 @@ export default function Projects({
         handleConfirm={modal?.handleConfirm}
       />
       <Row className="text-center mt-4">
+        <Col sm={1}>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            title="click here to remove the task"
+            className="mx-3 clickable hover-bright trash"
+            onClick={() => {
+              window.location.href = "/";
+            }}
+            style={{ fontSize: 35 }}
+          />
+        </Col>
         <Col>
           <img src="logo.png" height={200} />
         </Col>
+        <Col sm={1}></Col>
       </Row>
       {wrongId && <div>This project does not exist</div>}
       {!wrongId && (

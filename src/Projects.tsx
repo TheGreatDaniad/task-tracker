@@ -118,7 +118,9 @@ export default function Projects({
                   >
                     {project?.name}
                   </Link>
+                  <small className="count mb-3"> ({project.items.length})</small>
                 </div>
+
                 <div className="d-inline">
                   {/* <button onClick={() => handleAddSubItem(item.id)}>
                     Add Subitem
