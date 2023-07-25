@@ -7,8 +7,6 @@ import {
   faTrash,
   faCheck,
   faGreaterThan,
-  faBackward,
-  faBackwardStep,
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import CustomModal, { Props as ModalProps } from "./Modal";
@@ -96,7 +94,13 @@ export default function Projects({
         : item
     );
     setItems(updatedItems);
-    setNewItemText("");
+    //@ts-ignore
+    const inputElement = document.getElementById(
+      "#addSubItem"
+    ) as HTMLInputElement | null;
+    if (inputElement) {
+      inputElement.value = ""
+    }
   };
   const toggleCheckSubItem = (itemIndex: number, subItemIndex: number) => {
     const updatedItems = [...items];
@@ -289,13 +293,15 @@ export default function Projects({
                         <div className="mt-4  d-flex justify-content-between">
                           <input
                             type="text"
+                            id="#addSubItem"
                             className="add-item-input"
-                            onChange={(e) =>
+                            onChange={(e) => {
+                              //@ts-ignore
                               setNewSubItem((prev) => {
                                 prev[index] = e.target.value;
                                 return prev;
-                              })
-                            }
+                              });
+                            }}
                             onKeyDownCapture={handleKeyPress2}
                             placeholder="Write the subtask to add"
                           />
