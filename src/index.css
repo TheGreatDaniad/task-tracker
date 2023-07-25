@@ -25,6 +25,7 @@ code {
   border-bottom: 1px solid rgb(193, 193, 193);
 
 }
+
 .btn-primary {
   background-color:rgb(217, 125, 64) ;
   border:none;
@@ -77,6 +78,24 @@ code {
   width: 100%;
   margin-left: -6rem;
   
+}
+@media (min-width: 768px) and (max-width: 1200px) {
+  .subitem {
+  
+    transform: scale(0.8);
+    width: 100%;
+    margin-left: -3rem;
+    
+  }
+}
+@media (max-width: 768px)  {
+  .subitem {
+  
+    transform: scale(0.8);
+    width: 100%;
+    margin-left: -1rem;
+    
+  }
 }
 
 .done{
